@@ -40,7 +40,7 @@ func GetUser(nick string) (*User, error) {
 	users := []*User{}
 
 	request := gorequest.New().Get("https://osu.ppy.sh/api/get_user?u=" + nick + "&type=string&k=" + APIKey)
-	request.Header["Accept"] = "application/json"
+	request.Header.Set("Accept", "application/json")
 
 	_, _, errs := request.EndStruct(&users)
 

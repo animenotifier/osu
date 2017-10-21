@@ -2,8 +2,10 @@ package osu
 
 import (
 	"errors"
+	"fmt"
+	"net/http"
 
-	"github.com/parnurzeal/gorequest"
+	"github.com/aerogo/http/client"
 )
 
 // APIKey is the Osu API key.
@@ -38,14 +40,14 @@ func GetUser(nick string) (*User, error) {
 	}
 
 	users := []*User{}
+	response, err := client.Get("https://osu.ppy.sh/api/get_user?u="+nick+"&type=string&k="+APIKey).Header("Accept", "application/json").EndStruct(&users)
 
-	request := gorequest.New().Get("https://osu.ppy.sh/api/get_user?u=" + nick + "&type=string&k=" + APIKey)
-	request.Header.Set("Accept", "application/json")
+	if err != nil {
+		return nil, err
+	}
 
-	_, _, errs := request.EndStruct(&users)
-
-	if len(errs) > 0 {
-		return nil, errs[0]
+	if response.StatusCode() != http.StatusOK {
+		return nil, fmt.Errorf("Invalid status code %d", response.StatusCode())
 	}
 
 	if len(users) == 0 {

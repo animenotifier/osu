@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/akyoto/assert"
 )
 
 func init() {
@@ -18,8 +18,8 @@ func TestUser(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, user)
 	assert.Equal(t, user.UserName, userName)
-	assert.NotEmpty(t, user.PPRaw)
-	assert.NotEmpty(t, user.Level)
-	assert.NotEmpty(t, user.Accuracy)
-	assert.NotEmpty(t, user.PlayCount)
+	assert.NotEqual(t, user.PPRaw, "")
+	assert.NotEqual(t, user.Level, "")
+	assert.NotEqual(t, user.Accuracy, "")
+	assert.NotEqual(t, user.PlayCount, "")
 }
